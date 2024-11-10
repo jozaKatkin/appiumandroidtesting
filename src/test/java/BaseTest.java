@@ -1,18 +1,18 @@
 import driver.DriverManager;
 import io.appium.java_client.android.AndroidDriver;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public class BaseTest {
     protected static AndroidDriver driver;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         driver = DriverManager.getDriver();
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
         DriverManager.quitDriver();
     }
 }

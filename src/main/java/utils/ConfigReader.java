@@ -27,4 +27,8 @@ public class ConfigReader implements ILogger {
     public String getProperty(String key) {
         return properties.getProperty(key);
     }
+
+    public static String get(String key) {
+        return getInstance().getProperty(key);
+    }
 }

@@ -1,13 +1,16 @@
 import org.junit.jupiter.api.Test;
-import pages.TestPage;
+import screens.MainScreen;
 import utils.ILogger;
 
 public class FirstTest extends BaseTest implements ILogger {
 
     @Test
-    public void firstTest() {
-        TestPage testPage = new TestPage(driver);
+    public void addRandomProductToCart() {
+        MainScreen mainScreen = new MainScreen(driver);
         log().info("App is successfully started");
+        mainScreen.clickOnLogo()
+                .clickOnRandomProduct();
     }
+
 
 }

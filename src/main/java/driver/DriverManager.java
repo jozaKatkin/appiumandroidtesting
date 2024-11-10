@@ -3,6 +3,7 @@ package driver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import utils.ConfigReader;
+import utils.Waiter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,20 +12,26 @@ public class DriverManager {
 
     private static class DriverHolder {
         private static final AndroidDriver DRIVER_INSTANCE = createDriver();
+        private static Waiter waiter;
 
         private static AndroidDriver createDriver() {
             try {
                 UiAutomator2Options options = new UiAutomator2Options()
-                        .setUdid(ConfigReader.getInstance().getProperty("device.name"))
-                        .setApp(ConfigReader.getInstance().getProperty("app"))
+                        .setUdid(ConfigReader.get("device.name"))
+                        .setApp(ConfigReader.get("app"))
                         .setPlatformName("Android")
-                        .setDeviceName(ConfigReader.getInstance().getProperty("device.name"))
+                        .setDeviceName(ConfigReader.get("device.name"))
                         .setAutomationName("UiAutomator2")
-                        .setPlatformVersion(ConfigReader.getInstance().getProperty("platform.version"))
-                        .setAppPackage("com.simplemobiletools.notes")
-                        .setAppActivity(".activities.MainActivity");
+                        .setPlatformVersion(ConfigReader.get("platform.version"))
+                        .setAppPackage(ConfigReader.get("package"))
+                        .setAppActivity(ConfigReader.get("activity"));
 
-                return new AndroidDriver(new URL(ConfigReader.getInstance().getProperty("appium.server.url")), options);
+                AndroidDriver driver = new AndroidDriver(new URL(ConfigReader.get("appium.server.url")), options);
+
+                waiter = new Waiter(driver);
+                waiter.setImplicitWait(5);
+
+                return driver;
             } catch (MalformedURLException e) {
                 throw new RuntimeException("invalid URL for Appium Server", e);
             }
@@ -40,5 +47,4 @@ public class DriverManager {
             DriverHolder.DRIVER_INSTANCE.quit();
         }
     }
-
 }
