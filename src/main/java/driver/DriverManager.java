@@ -1,44 +1,38 @@
 package driver;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.AppiumDriver;
 import utils.ConfigReader;
 import utils.Waiter;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class DriverManager {
 
     private static class DriverHolder {
-        private static final AndroidDriver DRIVER_INSTANCE = createDriver();
+        private static final AppiumDriver DRIVER_INSTANCE = createDriver();
         private static Waiter waiter;
 
-        private static AndroidDriver createDriver() {
-            try {
-                UiAutomator2Options options = new UiAutomator2Options()
-                        .setUdid(ConfigReader.get("device.name"))
-                        .setApp(ConfigReader.get("app"))
-                        .setPlatformName("Android")
-                        .setDeviceName(ConfigReader.get("device.name"))
-                        .setAutomationName("UiAutomator2")
-                        .setPlatformVersion(ConfigReader.get("platform.version"))
-                        .setAppPackage(ConfigReader.get("package"))
-                        .setAppActivity(ConfigReader.get("activity"));
+        private static AppiumDriver createDriver() {
+            DriverFactory factory;
+            String platform = ConfigReader.getPlatformName();
 
-                AndroidDriver driver = new AndroidDriver(new URL(ConfigReader.get("appium.server.url")), options);
-
-                waiter = new Waiter(driver);
-                waiter.setImplicitWait(5);
-
-                return driver;
-            } catch (MalformedURLException e) {
-                throw new RuntimeException("invalid URL for Appium Server", e);
+            switch (platform.toLowerCase()) {
+                case "ios":
+                    factory = new IOSDriverFactory();
+                    break;
+                case "android":
+                default:
+                    factory = new AndroidDriverFactory();
+                    break;
             }
+            AppiumDriver driver = factory.createDriver();
+
+            waiter = new Waiter(driver);
+            waiter.setImplicitWait(5);
+
+            return driver;
         }
     }
 
-    public static AndroidDriver getDriver() {
+    public static AppiumDriver getDriver() {
         return DriverHolder.DRIVER_INSTANCE;
     }
 
