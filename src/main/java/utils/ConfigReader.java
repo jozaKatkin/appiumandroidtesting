@@ -31,4 +31,9 @@ public class ConfigReader implements ILogger {
     public static String get(String key) {
         return getInstance().getProperty(key);
     }
+
+    public static String getPlatformName() {
+        return System.getenv("PLATFORM_NAME") != null ?
+                System.getenv("PLATFORM_NAME") : "Android"; // Default to Android
+    }
 }

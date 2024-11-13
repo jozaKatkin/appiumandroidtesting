@@ -1,5 +1,6 @@
 package utils;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -8,9 +9,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class Waiter {
-    private final AndroidDriver driver;
+    private final AppiumDriver driver;
 
-    public Waiter(AndroidDriver driver) {
+    public Waiter(AppiumDriver driver) {
         this.driver = driver;
     }
 
