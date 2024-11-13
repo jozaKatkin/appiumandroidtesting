@@ -9,3 +9,5 @@ target/
 # Config properties
 /src/main/resources/config.properties
 
+# Screenshots
+/src/screenshots/

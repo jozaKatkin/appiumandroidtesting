@@ -9,4 +9,8 @@ public interface ILogger {
     default Logger log() {
         return logger;
     }
+//
+//    static Logger staticLog() {
+//        return logger;
+//    }
 }
