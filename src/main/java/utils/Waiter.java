@@ -33,7 +33,7 @@ public class Waiter {
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public WebElement waitForElementToBeClickable300Millis(WebElement element, int timeInMillis) {
+    public WebElement waitForElementToBeClickable(WebElement element, int timeInMillis) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(timeInMillis));
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
